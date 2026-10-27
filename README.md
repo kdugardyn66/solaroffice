@@ -6,7 +6,7 @@ SolarMarkdown and SolarHTML — with AI built in.
 **Stack:** Dioxus 0.7 (desktop now, WASM later) + TailwindCSS v4 · Yrs (CRDT) for collaboration ·
 Axum/Tokio sync server with PostgreSQL. No JavaScript/TypeScript in the app itself.
 
-**Status — v0.1.0: the startup (Home) screen.** The module editors and the sync server follow.
+**Status — v0.2.0: Home screen plus the AI layer.** Chat and Settings are in; the module editors and the sync server follow.
 
 ## The Home screen
 
@@ -27,6 +27,16 @@ Axum/Tokio sync server with PostgreSQL. No JavaScript/TypeScript in the app itse
   (`SOLAROFFICE_CONFIG_DIR` overrides).
 
 Until the editors arrive, a file tab shows the file and offers *Open in default app*.
+
+## AI and Settings
+
+- **Ask AI** (sidebar): a streaming chat; tick *use starred files* to answer from your starred
+  documents (text files are sent, other types are listed by name). Token and cost footer, Stop, Clear.
+- **AI side pane** in every file tab, scoped to that module.
+- **Settings** (⌘,): *General* (theme, name, save folder; applied at once), *AI providers* (add,
+  edit, Test connection, local servers without key) and *AI models* (default and per-module
+  model). AI changes are kept on a draft and saved on **Done**; **Cancel** drops them.
+  Stored in `ai.toml` in the settings folder. The provider code is `crates/solar-ai`.
 
 ### Shortcuts
 

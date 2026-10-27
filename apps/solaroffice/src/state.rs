@@ -2,12 +2,20 @@
 //! and the status toast. Every field is a signal, so [`Ctx`] is `Copy` and any component takes it
 //! with `use_context::<Ctx>()`.
 
+use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 
 use dioxus::prelude::*;
+use solar_ai::AiHub;
 use solar_core::library::Sort;
 use solar_core::settings::{HomeState, Store, ThemePref};
 use solar_core::{AppKind, now_ms};
+
+use crate::ai_state::{AiSettingsUi, SettingsTab};
+use crate::chat::ChatState;
+
+/// The chat id of Ask AI on Home; module tabs use their tab id.
+pub const HOME_CHAT: u64 = 0;
 
 /// The most recently closed tabs ⌘⇧T can reopen.
 pub const MAX_CLOSED: usize = 25;
@@ -85,6 +93,15 @@ pub struct Ctx {
     pub refresh: Signal<u64>,
     /// The search box, for ⌘F.
     pub search_box: Signal<Option<std::rc::Rc<MountedData>>>,
+    /// The AI layer (`ai.toml` in the settings folder).
+    pub ai: Signal<AiHub>,
+    pub settings_tab: Signal<SettingsTab>,
+    /// The AI settings being edited (saved on Done).
+    pub ai_ui: Signal<AiSettingsUi>,
+    /// Conversations by chat id ([`HOME_CHAT`] or a tab id).
+    pub chats: Signal<HashMap<u64, ChatState>>,
+    /// The AI pane next to module tabs is shown.
+    pub ai_pane: Signal<bool>,
 }
 
 impl Ctx {
@@ -108,6 +125,11 @@ impl Ctx {
             system_dark: Signal::new(system_dark),
             refresh: Signal::new(0),
             search_box: Signal::new(None),
+            ai: Signal::new(AiHub::load(solar_core::settings::config_dir())),
+            settings_tab: Signal::new(SettingsTab::General),
+            ai_ui: Signal::new(AiSettingsUi::default()),
+            chats: Signal::new(HashMap::new()),
+            ai_pane: Signal::new(true),
         }
     }
 
@@ -140,7 +162,59 @@ impl Ctx {
 
     pub fn close_overlays(&mut self) {
         self.menu.set(None);
+        if matches!(&*self.modal.peek(), Some(Modal::Settings)) {
+            self.close_settings();
+        } else {
+            self.modal.set(None);
+        }
+    }
+
+    /// Open Settings on `tab`.
+    pub fn open_settings(&mut self, tab: SettingsTab) {
+        self.menu.set(None);
+        self.settings_tab.set(tab);
+        self.ai_ui.write().screen = Default::default();
+        if tab != SettingsTab::General {
+            self.ensure_draft();
+        }
+        self.modal.set(Some(Modal::Settings));
+    }
+
+    /// Start editing the AI configuration (a copy; saved on Done).
+    pub fn ensure_draft(&mut self) {
+        if self.ai_ui.peek().draft.is_none() {
+            let hub = self.ai.peek().clone();
+            self.ai_ui.write().draft_mut(&hub);
+        }
+    }
+
+    /// Run `f` on the conversation `id`, creating it (for `target`) the first time.
+    pub fn with_chat<R>(&mut self, id: u64, target: Option<AppKind>, f: impl FnOnce(&mut ChatState) -> R) -> R {
+        let mut chats = self.chats.write();
+        f(chats.entry(id).or_insert_with(|| ChatState::new(target, id == HOME_CHAT)))
+    }
+
+    /// Close Settings and drop the unsaved AI edits.
+    pub fn close_settings(&mut self) {
         self.modal.set(None);
+        self.ai_ui.set(AiSettingsUi::default());
+    }
+
+    /// Save the AI edits (Done): the draft becomes the configuration. `false` on a save error,
+    /// which stays in the dialog.
+    pub fn save_settings(&mut self) -> bool {
+        let draft = self.ai_ui.write().draft.take();
+        if let Some(draft) = draft {
+            let hub = self.ai.peek().clone();
+            if let Err(e) = hub.set_config(draft.clone()) {
+                let mut ui = self.ai_ui.write();
+                ui.error = Some(e.to_string());
+                ui.draft = Some(draft);
+                return false;
+            }
+        }
+        self.close_settings();
+        true
     }
 
     fn alloc_id(&mut self) -> u64 {
@@ -214,6 +288,9 @@ impl Ctx {
     }
 
     pub fn close_tab(&mut self, id: u64) {
+        if let Some(c) = self.chats.write().remove(&id) {
+            c.stop();
+        }
         let mut tabs = self.tabs.write();
         let Some(i) = tabs.iter().position(|t| t.id == id) else { return };
         let tab = tabs.remove(i);

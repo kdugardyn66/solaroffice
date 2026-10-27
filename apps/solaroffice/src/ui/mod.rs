@@ -4,6 +4,8 @@
 mod ask;
 mod home;
 mod menus;
+mod pickers;
+mod settings;
 mod module_tab;
 mod sidebar;
 mod tabs;
@@ -12,7 +14,7 @@ use dioxus::prelude::*;
 use solar_core::settings::{HomeState, Store};
 use solar_core::{AppKind, now_ms};
 
-use crate::state::{Ctx, Menu, MenuKind, Modal, Page};
+use crate::state::{Ctx, Menu, MenuKind, Page};
 
 /// Tailwind's output (`assets/tailwind.css`, built from `tailwind.css`; `dx serve` rebuilds it).
 const CSS: &str = include_str!("../../assets/tailwind.css");
@@ -22,7 +24,7 @@ pub fn primary(m: Modifiers) -> bool {
     if cfg!(target_os = "macos") { m.contains(Modifiers::META) } else { m.contains(Modifiers::CONTROL) }
 }
 
-/// First launch: copy the example documents straight into the save folder and list them.
+/// First launch: copy the example documents into `<save folder>/Examples` and list them.
 fn install_examples(state: &mut HomeState) {
     if state.settings.examples_installed {
         return;
@@ -127,7 +129,7 @@ pub fn App() -> Element {
             }
             Code::KeyO => ctx.open_dialog(),
             Code::KeyN => ctx.new_file(AppKind::Word),
-            Code::Comma => ctx.modal.set(Some(Modal::Settings)),
+            Code::Comma => ctx.open_settings(crate::ai_state::SettingsTab::General),
             Code::ArrowRight if alt => ctx.cycle(1),
             Code::ArrowLeft if alt => ctx.cycle(-1),
             Code::KeyF if ctx.active.peek().is_none() => {

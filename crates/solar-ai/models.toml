@@ -1,0 +1,662 @@
+# SolarOffice model catalog: what the AI layer knows about each hosted model.
+#
+# Used for the model picker, sensible max_tokens, capability checks (images, PDFs, tools) and
+# cost estimates. Models not listed still work: any id a provider's /models endpoint returns can
+# be used, with conservative defaults. Local providers (Ollama, LM Studio, OpenAI-compatible)
+# are free and get their model list from the server.
+#
+# Prices: US dollars per million tokens, standard tier, taken from the providers' pricing pages
+# on 2026-10-24. Check them before relying on cost estimates. `price_note` replaces the price
+# label where the price isn't per token (images, characters) or isn't published.
+#
+# Categories (at most five per model, strongest first): reason, chat, write, translate, code,
+# create (images/video), listen (speech-to-text), speak (text-to-speech), see (images in),
+# predict (forecasting).
+#
+# Models are grouped by region: Europe, Asia-Pacific, North America. Aleph Alpha and Microsoft
+# use the model (deployment) names of your own install, so they have few or no entries.
+#   https://platform.claude.com/docs/en/models/overview
+#   https://ai.google.dev/gemini-api/docs/pricing
+#   https://developers.openai.com/api/docs/models/compare
+
+# ─── North America ───────────────────────────────────────────────────────────
+
+[[model]]
+provider = "anthropic"
+id = "claude-fable-5-1"
+name = "Claude Fable 5.1"
+context = 1_000_000
+max_output = 128_000
+categories = ["reason", "code", "write", "see", "chat"]
+vision = true
+pdf = true
+tools = true
+input = 10.0
+output = 50.0
+
+[[model]]
+provider = "anthropic"
+id = "claude-opus-5-5"
+name = "Claude Opus 5.5"
+context = 1_000_000
+max_output = 128_000
+categories = ["reason", "code", "write", "chat", "see"]
+vision = true
+pdf = true
+tools = true
+input = 4.0
+output = 20.0
+
+[[model]]
+provider = "anthropic"
+id = "claude-sonnet-5-5"
+name = "Claude Sonnet 5.5"
+context = 1_000_000
+max_output = 128_000
+categories = ["code", "reason", "chat", "write", "see"]
+vision = true
+pdf = true
+tools = true
+input = 2.0
+output = 10.0
+recommended = true
+
+[[model]]
+provider = "anthropic"
+id = "claude-haiku-5-5"
+name = "Claude Haiku 5.5"
+context = 1_000_000
+max_output = 128_000
+categories = ["chat", "write", "translate", "code", "see"]
+vision = true
+pdf = true
+tools = true
+input = 0.10   # "from" price
+output = 0.50
+
+# Gemini: the 4 Argon and 3.x Flash prices double after their launch periods
+# (Argon from 2026-12-01, 3.6/3.8 Flash from 2027-01-01).
+[[model]]
+provider = "gemini"
+id = "gemini-4-argon"
+name = "Gemini 4 Argon"
+context = 1_048_576
+max_output = 65_536
+categories = ["reason", "code", "write", "see", "predict"]
+vision = true
+pdf = true
+tools = true
+input = 2.0
+output = 10.0
+
+[[model]]
+provider = "gemini"
+id = "gemini-3.8-flash"
+name = "Gemini 3.8 Flash"
+context = 1_048_576
+max_output = 65_536
+categories = ["chat", "write", "code", "see", "listen"]
+vision = true
+pdf = true
+tools = true
+input = 0.75
+output = 3.75
+recommended = true
+
+[[model]]
+provider = "gemini"
+id = "gemini-3.6-flash"
+name = "Gemini 3.6 Flash"
+context = 1_048_576
+max_output = 65_536
+categories = ["chat", "write", "translate", "see", "listen"]
+vision = true
+pdf = true
+tools = true
+input = 0.75
+output = 3.75
+
+[[model]]
+provider = "gemini"
+id = "gemini-3.5-flash-lite"
+name = "Gemini 3.5 Flash-Lite"
+context = 1_048_576
+max_output = 65_536
+categories = ["chat", "translate", "write", "see"]
+vision = true
+pdf = true
+tools = true
+input = 0.30
+output = 2.50
+
+[[model]]
+provider = "gemini"
+id = "gemini-3.1-pro-preview"
+name = "Gemini 3.1 Pro (preview)"
+context = 1_048_576
+max_output = 65_536
+categories = ["reason", "code", "write", "see"]
+vision = true
+pdf = true
+tools = true
+input = 2.0    # prompts up to 200k tokens
+output = 12.0
+
+[[model]]
+provider = "openai"
+id = "gpt-6-astra"
+name = "GPT-6 Astra"
+context = 1_050_000
+max_output = 128_000
+categories = ["reason", "code", "write", "see", "predict"]
+vision = true
+pdf = true
+tools = true
+input = 10.0
+output = 50.0
+
+[[model]]
+provider = "openai"
+id = "gpt-6.1-sol"
+name = "GPT-6.1 Sol"
+context = 1_050_000
+max_output = 128_000
+categories = ["reason", "chat", "write", "code", "see"]
+vision = true
+pdf = true
+tools = true
+input = 2.0
+output = 10.0
+recommended = true
+
+[[model]]
+provider = "openai"
+id = "gpt-6-luna"
+name = "GPT-6 Luna"
+context = 1_050_000
+max_output = 128_000
+categories = ["chat", "write", "translate", "see"]
+vision = true
+pdf = true
+tools = true
+input = 0.10
+output = 0.50
+
+# Cohere (Canada): https://docs.cohere.com/docs/models
+[[model]]
+provider = "cohere"
+id = "command-a-plus-05-2026"
+name = "Command A+"
+context = 128_000
+max_output = 64_000
+vision = true
+tools = true
+recommended = true
+categories = ["reason", "chat", "write", "translate", "see"]
+price_note = "Free up to rate limits (production pricing: cohere.com/pricing)"
+
+[[model]]
+provider = "cohere"
+id = "command-a-03-2025"
+name = "Command A"
+context = 256_000
+max_output = 8_000
+tools = true
+input = 2.5
+output = 10.0
+categories = ["chat", "write", "translate", "code"]
+
+[[model]]
+provider = "cohere"
+id = "command-a-reasoning-08-2025"
+name = "Command A Reasoning"
+context = 256_000
+max_output = 32_000
+tools = true
+categories = ["reason", "chat", "write", "code"]
+price_note = "Free up to rate limits (production pricing: cohere.com/pricing)"
+
+[[model]]
+provider = "cohere"
+id = "command-a-vision-07-2025"
+name = "Command A Vision"
+context = 128_000
+max_output = 8_000
+vision = true
+categories = ["see", "chat", "write"]
+price_note = "Free up to rate limits (production pricing: cohere.com/pricing)"
+
+[[model]]
+provider = "cohere"
+id = "command-a-translate-08-2025"
+name = "Command A Translate"
+context = 8_000
+max_output = 8_000
+categories = ["translate", "write"]
+price_note = "Free up to rate limits (production pricing: cohere.com/pricing)"
+
+[[model]]
+provider = "cohere"
+id = "command-r7b-12-2024"
+name = "Command R7B"
+context = 128_000
+max_output = 4_000
+tools = true
+input = 0.0375
+output = 0.15
+categories = ["chat", "write"]
+
+# Meta Model API (the Llama API was retired in July 2026): https://dev.meta.ai/docs/pricing-rate-limits
+[[model]]
+provider = "meta"
+id = "muse-spark-1.3"
+name = "Muse Spark 1.3"
+context = 1_048_576
+max_output = 131_072
+vision = true
+pdf = true
+tools = true
+input = 1.25
+output = 4.25
+recommended = true
+categories = ["reason", "chat", "write", "code", "see"]
+
+[[model]]
+provider = "meta"
+id = "muse-wonder-1.0"
+name = "Muse Wonder 1.0 (preview)"
+context = 1_048_576
+max_output = 131_072
+vision = true
+pdf = true
+tools = true
+input = 4.0
+output = 20.0
+categories = ["reason", "code", "chat", "write", "see"]
+
+# Microsoft Foundry: models are your deployment names; this entry prices a deployment named after the model.
+[[model]]
+provider = "microsoft"
+id = "MAI-Thinking-1"
+name = "MAI-Thinking-1 (preview)"
+context = 256_000
+max_output = 64_000
+tools = true
+input = 2.0
+output = 8.0
+recommended = true
+categories = ["reason", "chat", "write", "code"]
+
+# SpaceX AI (formerly xAI): https://docs.x.ai/developers/pricing
+[[model]]
+provider = "spacex-ai"
+id = "grok-4.7"
+name = "Grok 4.7"
+context = 500_000
+max_output = 131_072
+vision = true
+tools = true
+input = 2.0
+output = 6.0
+recommended = true
+categories = ["reason", "code", "chat", "write", "see"]
+
+[[model]]
+provider = "spacex-ai"
+id = "grok-4.20"
+name = "Grok 4.20"
+context = 1_000_000
+max_output = 131_072
+vision = true
+tools = true
+input = 1.25
+output = 2.5
+categories = ["reason", "chat", "write", "see"]
+
+[[model]]
+provider = "spacex-ai"
+id = "grok-4.3"
+name = "Grok 4.3"
+context = 1_000_000
+max_output = 131_072
+tools = true
+input = 1.25
+output = 2.5
+categories = ["chat", "write", "reason", "code"]
+
+[[model]]
+provider = "spacex-ai"
+id = "grok-build-0.1"
+name = "Grok Build 0.1"
+context = 256_000
+max_output = 131_072
+tools = true
+input = 1.0
+output = 2.0
+categories = ["code", "reason"]
+
+
+# ─── Europe ──────────────────────────────────────────────────────────────────
+# https://docs.mistral.ai/inference/pricing · https://developers.deepl.com · https://docs.bfl.ai/quick_start/pricing
+# (Mistral doesn't publish max output; 32k is a safe cap.)
+
+[[model]]
+provider = "mistral"
+id = "mistral-large-4"
+name = "Mistral Large 4"
+context = 1_000_000
+max_output = 32_768
+vision = true
+tools = true
+input = 1.36
+output = 4.18
+recommended = true
+categories = ["reason", "chat", "write", "code", "see"]
+
+[[model]]
+provider = "mistral"
+id = "mistral-medium-3-5"
+name = "Mistral Medium 3.5"
+context = 256_000
+max_output = 32_768
+vision = true
+tools = true
+input = 1.5
+output = 7.5
+categories = ["chat", "write", "code", "reason", "see"]
+
+[[model]]
+provider = "mistral"
+id = "mistral-small-2603"
+name = "Mistral Small 4"
+context = 256_000
+max_output = 32_768
+tools = true
+input = 0.15
+output = 0.6
+categories = ["chat", "reason", "code", "write", "translate"]
+
+[[model]]
+provider = "mistral"
+id = "codestral-2508"
+name = "Codestral 25.08"
+context = 128_000
+max_output = 32_768
+tools = true
+input = 0.3
+output = 0.9
+categories = ["code"]
+
+# DeepL: the model is the translation `model_type`.
+[[model]]
+provider = "deepl"
+id = "quality_optimized"
+name = "DeepL next-gen (best quality)"
+recommended = true
+categories = ["translate", "write"]
+price_note = "Per character of source text (see your DeepL API plan)"
+
+[[model]]
+provider = "deepl"
+id = "latency_optimized"
+name = "DeepL classic (fastest)"
+categories = ["translate"]
+price_note = "Per character of source text (see your DeepL API plan)"
+
+# Black Forest Labs: the model is the API endpoint (POST /v1/<id>); billed in credits, 1 credit = $0.01.
+[[model]]
+provider = "bfl"
+id = "flux-2-pro"
+name = "FLUX.2 [pro]"
+recommended = true
+categories = ["create"]
+price_note = "From $0.03 per megapixel"
+
+[[model]]
+provider = "bfl"
+id = "flux-2-flex"
+name = "FLUX.2 [flex]"
+categories = ["create"]
+price_note = "$0.05 per megapixel"
+
+[[model]]
+provider = "bfl"
+id = "flux-2-max"
+name = "FLUX.2 [max]"
+categories = ["create"]
+price_note = "From $0.07 per megapixel"
+
+[[model]]
+provider = "bfl"
+id = "flux-kontext-pro"
+name = "FLUX.1 Kontext [pro]"
+categories = ["create"]
+price_note = "$0.04 per image"
+
+[[model]]
+provider = "bfl"
+id = "flux-kontext-max"
+name = "FLUX.1 Kontext [max]"
+categories = ["create"]
+price_note = "$0.08 per image"
+
+[[model]]
+provider = "bfl"
+id = "flux-pro-1.1-ultra"
+name = "FLUX1.1 [pro] Ultra"
+categories = ["create"]
+price_note = "$0.06 per image"
+
+
+# ─── Asia-Pacific ────────────────────────────────────────────────────────────
+# https://www.alibabacloud.com/help/en/model-studio/model-pricing (international, Singapore)
+# https://api-docs.deepseek.com/quick_start/pricing (peak rates; off-peak is half price)
+# https://platform.kimi.ai/docs/models · https://sakana.ai/fugu · https://docs.z.ai/guides/overview/pricing
+
+[[model]]
+provider = "alibaba"
+id = "qwen3.8-max"
+name = "Qwen3.8 Max"
+context = 1_000_000
+max_output = 131_072
+vision = true
+tools = true
+input = 2.0
+output = 6.0
+categories = ["reason", "chat", "write", "code", "see"]
+
+[[model]]
+provider = "alibaba"
+id = "qwen3.7-plus"
+name = "Qwen3.7 Plus"
+context = 1_000_000
+max_output = 131_072
+vision = true
+tools = true
+input = 0.4
+output = 1.6
+recommended = true
+categories = ["chat", "write", "code", "translate", "see"]
+
+[[model]]
+provider = "alibaba"
+id = "qwen3.8-flash"
+name = "Qwen3.8 Flash"
+context = 1_000_000
+max_output = 32_768
+tools = true
+input = 0.15
+output = 0.47
+categories = ["chat", "translate", "write"]
+
+[[model]]
+provider = "alibaba"
+id = "qwen-flash"
+name = "Qwen Flash"
+context = 128_000
+max_output = 32_768
+tools = true
+input = 0.05
+output = 0.4
+categories = ["chat", "translate"]
+
+[[model]]
+provider = "alibaba"
+id = "qwen3-vl-plus"
+name = "Qwen3 VL Plus"
+context = 128_000
+max_output = 32_768
+vision = true
+tools = true
+input = 0.2
+output = 1.6
+categories = ["see", "chat"]
+
+[[model]]
+provider = "deepseek"
+id = "deepseek-flash"
+name = "DeepSeek Flash (V4.1)"
+context = 1_000_000
+max_output = 384_000
+vision = true
+tools = true
+input = 0.3
+output = 1.2
+recommended = true
+categories = ["chat", "reason", "code", "write", "see"]
+
+[[model]]
+provider = "deepseek"
+id = "deepseek-v4-pro"
+name = "DeepSeek V4 Pro"
+context = 1_000_000
+max_output = 384_000
+tools = true
+input = 1.32
+output = 3.96
+categories = ["reason", "code", "write", "chat"]
+
+[[model]]
+provider = "moonshot"
+id = "kimi-k3.1-pro"
+name = "Kimi K3.1 Pro"
+context = 1_048_576
+max_output = 131_072
+vision = true
+tools = true
+input = 2.0
+output = 10.0
+recommended = true
+categories = ["reason", "code", "write", "chat", "see"]
+
+[[model]]
+provider = "moonshot"
+id = "kimi-k3"
+name = "Kimi K3"
+context = 1_048_576
+max_output = 131_072
+vision = true
+tools = true
+input = 3.0
+output = 15.0
+categories = ["reason", "code", "write", "see"]
+
+[[model]]
+provider = "sakana"
+id = "fugu"
+name = "Fugu"
+context = 1_000_000
+max_output = 32_768
+tools = true
+recommended = true
+categories = ["reason", "chat", "write", "code"]
+price_note = "Subscription or pay-as-you-go (see console.sakana.ai)"
+
+[[model]]
+provider = "sakana"
+id = "fugu-max"
+name = "Fugu Max"
+context = 1_000_000
+max_output = 32_768
+tools = true
+categories = ["reason", "code", "write"]
+price_note = "Subscription or pay-as-you-go (see console.sakana.ai)"
+
+[[model]]
+provider = "sakana"
+id = "fugu-ultra"
+name = "Fugu Ultra"
+context = 1_000_000
+max_output = 32_768
+tools = true
+categories = ["reason", "code"]
+price_note = "Subscription or pay-as-you-go (see console.sakana.ai)"
+
+[[model]]
+provider = "sakana"
+id = "sakana-namazu"
+name = "Namazu"
+context = 128_000
+max_output = 32_768
+vision = true
+tools = true
+categories = ["chat", "write", "translate", "see"]
+price_note = "Pay-as-you-go (see console.sakana.ai)"
+
+[[model]]
+provider = "zai"
+id = "glm-5.3"
+name = "GLM-5.3"
+context = 1_000_000
+max_output = 131_072
+tools = true
+input = 1.4
+output = 4.4
+recommended = true
+categories = ["reason", "code", "write", "chat"]
+
+[[model]]
+provider = "zai"
+id = "glm-5.3-flash"
+name = "GLM-5.3 Flash"
+context = 1_000_000
+max_output = 131_072
+vision = true
+tools = true
+input = 0.15
+output = 0.5
+categories = ["chat", "code", "see", "translate"]
+
+[[model]]
+provider = "zai"
+id = "glm-4.6v"
+name = "GLM-4.6V"
+context = 128_000
+max_output = 32_768
+vision = true
+tools = true
+input = 0.3
+output = 0.9
+categories = ["see", "chat"]
+
+[[model]]
+provider = "zai"
+id = "glm-4.7-flash"
+name = "GLM-4.7 Flash"
+context = 128_000
+max_output = 32_768
+tools = true
+input = 0.0
+output = 0.0
+categories = ["chat", "write", "translate"]
+
+[[model]]
+provider = "zai"
+id = "glm-4.6v-flash"
+name = "GLM-4.6V Flash"
+context = 128_000
+max_output = 32_768
+vision = true
+input = 0.0
+output = 0.0
+categories = ["see", "chat"]

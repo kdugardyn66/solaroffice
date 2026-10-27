@@ -4,7 +4,6 @@ use std::path::PathBuf;
 
 use dioxus::prelude::*;
 use solar_core::library::display_name;
-use solar_core::settings::ThemePref;
 use solar_core::{AppKind, now_ms};
 
 use crate::files;
@@ -56,13 +55,13 @@ pub fn Overlays() -> Element {
         if let Some(modal) = modal {
             div {
                 class: "fixed inset-0 z-50 flex items-center justify-center bg-black/30",
-                onclick: move |_| ctx.modal.set(None),
+                onclick: move |_| ctx.close_overlays(),
                 div {
                     class: "rounded-2xl border border-line bg-card shadow-[0_24px_60px_-12px_rgba(0,0,0,.4)]",
                     onclick: |e| e.stop_propagation(),
                     match modal {
                         Modal::ConfirmTrash(paths) => rsx! { ConfirmTrash { paths } },
-                        Modal::Settings => rsx! { SettingsDialog {} },
+                        Modal::Settings => rsx! { super::settings::SettingsDialog {} },
                         Modal::About => rsx! { About {} },
                     }
                 }
@@ -291,82 +290,6 @@ fn ConfirmTrash(paths: Vec<PathBuf>) -> Element {
 }
 
 #[component]
-fn SettingsDialog() -> Element {
-    let mut ctx = use_context::<Ctx>();
-    let settings = ctx.home.read().settings.clone();
-    let save = settings.save_folder();
-    let name = settings.display_name.clone().unwrap_or_default();
-    let placeholder = solar_core::settings::capitalise_login(&std::env::var("USER").unwrap_or_default()).unwrap_or_else(|| "Your name".into());
-    rsx! {
-        div { class: "w-[520px]",
-            div { class: "flex items-center px-6 pt-5 pb-3",
-                span { class: "flex-1 text-[17px] font-semibold", "Settings" }
-                button { class: "p-1 rounded text-muted hover:text-ink hover:bg-hover", onclick: move |_| ctx.modal.set(None), Icon { svg: icons::X, size: 16 } }
-            }
-            div { class: "px-6 pb-2 flex flex-col gap-5",
-                Field { label: "Theme",
-                    div { class: "inline-flex p-1 rounded-lg bg-pill gap-0.5",
-                        for pref in ThemePref::ALL {
-                            button {
-                                key: "{pref.label()}",
-                                class: if settings.theme == pref { "px-3 h-7 rounded-md bg-card shadow-[0_1px_2px_rgba(0,0,0,.08)] font-medium" } else { "px-3 h-7 rounded-md text-ink2 hover:text-ink" },
-                                onclick: move |_| ctx.home.write().settings.theme = pref,
-                                "{pref.label()}"
-                            }
-                        }
-                    }
-                }
-                Field { label: "Your name", hint: "Used in the greeting on Home.",
-                    input {
-                        class: "w-full h-9 px-3 rounded-lg border border-line bg-app outline-none focus:border-accent select-text",
-                        value: "{name}",
-                        placeholder: "{placeholder}",
-                        oninput: move |e| {
-                            let v = e.value();
-                            ctx.home.write().settings.display_name = if v.trim().is_empty() { None } else { Some(v) };
-                        },
-                    }
-                }
-                Field { label: "Save new files in", hint: "Also the first folder in the sidebar.",
-                    div { class: "flex items-center gap-2",
-                        div { class: "flex-1 min-w-0 h-9 px-3 flex items-center rounded-lg border border-line bg-app text-ink2 truncate", title: "{save.display()}", "{save.display()}" }
-                        button {
-                            class: "px-3 h-9 rounded-lg border border-line hover:bg-hover shrink-0",
-                            onclick: move |_| {
-                                spawn(async move {
-                                    if let Some(dir) = rfd::AsyncFileDialog::new().set_title("Save new files in").pick_folder().await {
-                                        ctx.home.write().settings.default_folder = Some(dir.path().to_path_buf());
-                                    }
-                                });
-                            },
-                            "Change…"
-                        }
-                    }
-                }
-            }
-            div { class: "flex items-center px-6 py-4 mt-3 border-t border-line",
-                button { class: "text-ink2 hover:text-ink", onclick: move |_| ctx.modal.set(Some(Modal::About)), "About SolarOffice" }
-                div { class: "flex-1" }
-                button { class: "px-4 h-8 rounded-lg bg-accent text-on-accent font-medium hover:brightness-110", onclick: move |_| ctx.modal.set(None), "Done" }
-            }
-        }
-    }
-}
-
-#[component]
-fn Field(label: &'static str, #[props(default)] hint: &'static str, children: Element) -> Element {
-    rsx! {
-        div {
-            div { class: "mb-1.5 font-medium", "{label}" }
-            {children}
-            if !hint.is_empty() {
-                div { class: "mt-1 text-[12px] text-muted", "{hint}" }
-            }
-        }
-    }
-}
-
-#[component]
 fn About() -> Element {
     let mut ctx = use_context::<Ctx>();
     let logo = use_hook(super::sidebar::logo_src);
@@ -378,7 +301,7 @@ fn About() -> Element {
             p { class: "mt-3 text-[12.5px] text-ink2 leading-relaxed",
                 "A modern office suite in Rust (Dioxus + TailwindCSS). Home screen and AI after GenOffice; ribbons after ONLYOFFICE; editors based on the ArtCraft Craft apps."
             }
-            button { class: "mt-5 px-4 h-8 rounded-lg border border-line hover:bg-hover", onclick: move |_| ctx.modal.set(None), "Close" }
+            button { class: "mt-5 px-4 h-8 rounded-lg border border-line hover:bg-hover", onclick: move |_| ctx.modal.set(Some(Modal::Settings)), "Close" }
         }
     }
 }

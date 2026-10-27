@@ -3,6 +3,8 @@
 
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod ai_state;
+mod chat;
 mod files;
 mod icons;
 mod state;

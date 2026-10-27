@@ -194,7 +194,8 @@ fn FileList() -> Element {
                 input {
                     class: "flex-1 bg-transparent outline-none placeholder:text-muted select-text",
                     placeholder: "Search file names…  (⌘F)",
-                    value: "{search}",
+                    id: "home-search",
+                    initial_value: "{search}",
                     spellcheck: "false",
                     onmounted: move |e| ctx.search_box.set(Some(e.data())),
                     oninput: move |e| ctx.search.set(e.value()),
@@ -202,11 +203,15 @@ fn FileList() -> Element {
                         if e.key() == Key::Escape && !ctx.search.peek().is_empty() {
                             e.stop_propagation();
                             ctx.search.set(String::new());
+                            let _ = document::eval("let e=document.getElementById('home-search'); if(e) e.value='';");
                         }
                     },
                 }
                 if !search.is_empty() {
-                    button { class: "text-muted hover:text-ink", onclick: move |_| ctx.search.set(String::new()),
+                    button { class: "text-muted hover:text-ink", onclick: move |_| {
+                        ctx.search.set(String::new());
+                        let _ = document::eval("let e=document.getElementById('home-search'); if(e) e.value='';");
+                    },
                         Icon { svg: icons::X, size: 14 }
                     }
                 }
@@ -500,7 +505,7 @@ fn RenameBox(path: PathBuf, text: String) -> Element {
         div { class: "flex items-center gap-1 flex-1 min-w-0",
             input {
                 class: "flex-1 min-w-0 px-1.5 h-7 rounded border border-accent bg-app outline-none select-text",
-                value: "{text}",
+                initial_value: "{text}",
                 spellcheck: "false",
                 onclick: |e| e.stop_propagation(),
                 onmounted: move |e| async move {

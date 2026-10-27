@@ -11,6 +11,7 @@ workspace = true
 
 [dependencies]
 solar-core = { workspace = true }
+solar-ai = { workspace = true }
 dioxus = { workspace = true, features = ["desktop"] }
 tokio = { workspace = true }
 chrono = { workspace = true }
@@ -19,6 +20,7 @@ rfd = { workspace = true }
 trash = { workspace = true }
 arboard = { workspace = true }
 base64 = { workspace = true }
+serde_json = { workspace = true }
 
 [dev-dependencies]
 tempfile = { workspace = true }

@@ -31,6 +31,9 @@ pub const MINUS_CIRCLE: &str = r#"<circle cx="12" cy="12" r="10"/><path d="M8 12
 pub const REFRESH: &str = r#"<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>"#;
 pub const ALERT: &str = r#"<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>"#;
 pub const FILE: &str = r#"<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/>"#;
+pub const CHAT: &str = r#"<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>"#;
+pub const STOP: &str = r#"<rect x="6" y="6" width="12" height="12" rx="2"/>"#;
+pub const BROOM: &str = r#"<path d="m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z"/><path d="m5 2 5 5"/><path d="M2 13h15"/>"#;
 pub const SEND: &str = r#"<path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/>"#;
 
 /// A line icon, `size` px, in the current text colour.

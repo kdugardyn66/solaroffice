@@ -6,7 +6,7 @@ use dioxus::prelude::*;
 use solar_core::folders;
 
 use crate::icons::{self, Icon};
-use crate::state::{Ctx, Menu, MenuKind, Modal, Page};
+use crate::state::{Ctx, Menu, MenuKind, Page};
 
 /// The app icon, embedded.
 pub fn logo_src() -> String {
@@ -70,7 +70,7 @@ pub fn Sidebar() -> Element {
             div { class: "border-t border-line px-3 py-2 flex items-center",
                 button {
                     class: "flex items-center gap-2.5 flex-1 px-2.5 py-1.5 rounded-md text-ink2 hover:bg-hover hover:text-ink",
-                    onclick: move |_| ctx.modal.set(Some(Modal::Settings)),
+                    onclick: move |_| ctx.open_settings(crate::ai_state::SettingsTab::General),
                     Icon { svg: icons::SETTINGS, size: 16 }
                     span { "Settings" }
                 }

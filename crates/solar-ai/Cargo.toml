@@ -1,0 +1,22 @@
+[package]
+name = "solar-ai"
+version.workspace = true
+edition.workspace = true
+publish = false
+description = "SolarOffice AI layer: one API over Anthropic, Gemini, OpenAI and any OpenAI-compatible endpoint (Ollama, LM Studio, vLLM, ...)"
+
+[lints]
+workspace = true
+
+[dependencies]
+solar-core = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+log = { workspace = true }
+toml = "1"
+thiserror = "2"
+base64 = "0.22"
+ureq = { version = "3", default-features = false, features = ["rustls", "platform-verifier", "gzip", "json"] }
+
+[dev-dependencies]
+tempfile = { workspace = true }

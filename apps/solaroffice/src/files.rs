@@ -118,7 +118,7 @@ pub fn copy_text(text: &str) -> bool {
     arboard::Clipboard::new().and_then(|mut c| c.set_text(text.to_string())).is_ok()
 }
 
-/// The folder with the bundled example documents: `Contents/Resources` in the macOS app,
+/// The folder with the bundled example documents: `Contents/Resources/examples` in the macOS app,
 /// `examples/` beside the executable, or the source tree's `examples/` in development.
 pub fn bundled_examples() -> Option<PathBuf> {
     let exe = std::env::current_exe().ok()?;

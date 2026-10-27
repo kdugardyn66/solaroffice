@@ -1,0 +1,12 @@
+[application]
+name = "SolarOffice"
+default_platform = "desktop"
+asset_dir = "assets"
+
+[bundle]
+identifier = "com.solaroffice.app"
+publisher = "SolarOffice"
+icon = ["../../assets/app-icon/solaroffice-256.png", "../../assets/app-icon/solaroffice.icns"]
+resources = ["../../examples/*"]
+short_description = "A modern office suite in Rust"
+category = "Productivity"

@@ -1,0 +1,6 @@
+/target
+/target.nosync
+.DS_Store
+/dist
+node_modules/
+**/Claude outputs/

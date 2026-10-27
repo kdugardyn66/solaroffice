@@ -1,0 +1,16 @@
+SolarOffice
+===========
+
+Third-party material and inspiration:
+
+- The home screen layout (tab strip, sidebar, greeting, quick-start cards, file list, Ask AI) and
+  the neutral design-token values follow GenOffice (https://github.com/genspark-ai/genoffice),
+  Apache License 2.0. No GenOffice source code or assets are included; the UI is re-implemented
+  in Rust with Dioxus and TailwindCSS.
+- Interface line icons (apps/solaroffice/src/icons.rs) are from Lucide (https://lucide.dev),
+  ISC License, Copyright (c) for portions of Lucide are held by Cole Bemis 2013-2022 as part of
+  Feather (MIT); all other copyright (c) for Lucide are held by Lucide Contributors 2022.
+  The module badges and the app icon are SolarOffice's own.
+- Dioxus (https://dioxuslabs.com), MIT OR Apache-2.0; TailwindCSS (https://tailwindcss.com), MIT.
+- crates/solar-core is carried over from the earlier egui version of SolarOffice
+  (solaroffice-main-egui).

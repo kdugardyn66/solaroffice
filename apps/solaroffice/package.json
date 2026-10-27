@@ -1,0 +1,13 @@
+{
+  "name": "solaroffice-css",
+  "private": true,
+  "description": "Builds assets/tailwind.css when dx (which runs Tailwind itself) isn't used.",
+  "scripts": {
+    "css": "tailwindcss -i tailwind.css -o assets/tailwind.css --minify",
+    "css:watch": "tailwindcss -i tailwind.css -o assets/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.1.14",
+    "tailwindcss": "4.1.14"
+  }
+}

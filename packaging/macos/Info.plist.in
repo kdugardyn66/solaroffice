@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- packaging/macos/package.sh substitutes @VERSION@. The document types list the extensions of
+     AppKind::extensions() in crates/solar-core/src/apps.rs; keep them in step. -->
+<plist version="1.0">
+<dict>
+  <key>CFBundleDisplayName</key><string>SolarOffice</string>
+  <key>CFBundleName</key><string>SolarOffice</string>
+  <key>CFBundleExecutable</key><string>solaroffice</string>
+  <key>CFBundleIdentifier</key><string>io.github.kdugardyn.solaroffice</string>
+  <key>CFBundlePackageType</key><string>APPL</string>
+  <key>CFBundleShortVersionString</key><string>@VERSION@</string>
+  <key>CFBundleVersion</key><string>@VERSION@</string>
+  <key>CFBundleIconFile</key><string>solaroffice</string>
+  <key>LSApplicationCategoryType</key><string>public.app-category.productivity</string>
+  <key>LSMinimumSystemVersion</key><string>11.0</string>
+  <key>NSHighResolutionCapable</key><true/>
+  <key>NSRequiresAquaSystemAppearance</key><false/>
+  <key>NSDocumentsFolderUsageDescription</key><string>SolarOffice keeps new files in Documents/SolarOffice and lists the files in it.</string>
+  <key>NSDesktopFolderUsageDescription</key><string>SolarOffice lists and opens files you keep on the Desktop.</string>
+  <key>NSDownloadsFolderUsageDescription</key><string>SolarOffice lists and opens files in Downloads.</string>
+  <key>NSHumanReadableCopyright</key><string>© Kris Dugardyn and the SolarOffice contributors.</string>
+  <key>CFBundleDocumentTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleTypeName</key><string>SolarWord document</string>
+      <key>CFBundleTypeRole</key><string>Editor</string>
+      <key>LSHandlerRank</key><string>Alternate</string>
+      <key>CFBundleTypeExtensions</key><array><string>docx</string><string>docm</string><string>dotx</string><string>doc</string><string>odt</string><string>ott</string><string>rtf</string></array>
+    </dict>
+    <dict>
+      <key>CFBundleTypeName</key><string>SolarGrid workbook</string>
+      <key>CFBundleTypeRole</key><string>Editor</string>
+      <key>LSHandlerRank</key><string>Alternate</string>
+      <key>CFBundleTypeExtensions</key><array><string>xlsx</string><string>xlsm</string><string>xltx</string><string>xls</string><string>ods</string><string>ots</string><string>csv</string></array>
+    </dict>
+    <dict>
+      <key>CFBundleTypeName</key><string>SolarDeck presentation</string>
+      <key>CFBundleTypeRole</key><string>Editor</string>
+      <key>LSHandlerRank</key><string>Alternate</string>
+      <key>CFBundleTypeExtensions</key><array><string>pptx</string><string>pptm</string><string>potx</string><string>ppt</string><string>odp</string><string>otp</string></array>
+    </dict>
+    <dict>
+      <key>CFBundleTypeName</key><string>SolarDraw drawing</string>
+      <key>CFBundleTypeRole</key><string>Editor</string>
+      <key>LSHandlerRank</key><string>Alternate</string>
+      <key>CFBundleTypeExtensions</key><array><string>drawio</string><string>dio</string><string>vsdx</string><string>vectorcraft</string><string>svg</string><string>svgz</string><string>ai</string><string>eps</string><string>dxf</string><string>afdesign</string></array>
+    </dict>
+    <dict>
+      <key>CFBundleTypeName</key><string>PDF document</string>
+      <key>CFBundleTypeRole</key><string>Editor</string>
+      <key>LSHandlerRank</key><string>Alternate</string>
+      <key>CFBundleTypeExtensions</key><array><string>pdf</string></array>
+    </dict>
+    <dict>
+      <key>CFBundleTypeName</key><string>Markdown document</string>
+      <key>CFBundleTypeRole</key><string>Editor</string>
+      <key>LSHandlerRank</key><string>Alternate</string>
+      <key>CFBundleTypeExtensions</key><array><string>md</string><string>markdown</string></array>
+    </dict>
+    <dict>
+      <key>CFBundleTypeName</key><string>Web page</string>
+      <key>CFBundleTypeRole</key><string>Editor</string>
+      <key>LSHandlerRank</key><string>Alternate</string>
+      <key>CFBundleTypeExtensions</key><array><string>html</string><string>htm</string></array>
+    </dict>
+  </array>
+</dict>
+</plist>

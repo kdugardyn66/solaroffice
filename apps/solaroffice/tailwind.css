@@ -1,0 +1,71 @@
+/* SolarOffice theme — TailwindCSS v4 input. `dx serve` / `dx bundle` rebuild assets/tailwind.css
+   from this file; without dx run `npm run css` in this folder (see README). */
+@import "tailwindcss";
+@source "./src";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Neutral tokens after GenOffice; brand accent = sun orange. */
+:root {
+  --so-app: #FAFAFA;
+  --so-side: #FFFFFF;
+  --so-strip: #EDEDED;
+  --so-card: #FFFFFF;
+  --so-pill: #F0F0F0;
+  --so-line: #E7E7E7;
+  --so-line-strong: #D0D0D0;
+  --so-ink: #1F1F1F;
+  --so-ink2: #555555;
+  --so-muted: #8A8A8A;
+  --so-hover: rgba(0, 0, 0, 0.045);
+  --so-sel: rgba(201, 95, 0, 0.09);
+  --so-accent: #C95F00;
+  --so-accent-soft: #FFF1E3;
+  --so-on-accent: #FFFFFF;
+  color-scheme: light;
+}
+.dark {
+  --so-app: #18181A;
+  --so-side: #1F1F22;
+  --so-strip: #131315;
+  --so-card: #232326;
+  --so-pill: #2A2A2E;
+  --so-line: #323236;
+  --so-line-strong: #46464C;
+  --so-ink: #EDEDED;
+  --so-ink2: #B8B8BE;
+  --so-muted: #85858C;
+  --so-hover: rgba(255, 255, 255, 0.06);
+  --so-sel: rgba(255, 169, 77, 0.13);
+  --so-accent: #FFA94D;
+  --so-accent-soft: rgba(255, 169, 77, 0.15);
+  --so-on-accent: #1A1208;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-app: var(--so-app);
+  --color-side: var(--so-side);
+  --color-strip: var(--so-strip);
+  --color-card: var(--so-card);
+  --color-pill: var(--so-pill);
+  --color-line: var(--so-line);
+  --color-ink: var(--so-ink);
+  --color-ink2: var(--so-ink2);
+  --color-muted: var(--so-muted);
+  --color-hover: var(--so-hover);
+  --color-sel: var(--so-sel);
+  --color-accent: var(--so-accent);
+  --color-accent-soft: var(--so-accent-soft);
+  --color-on-accent: var(--so-on-accent);
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+@layer base {
+  html, body { margin: 0; height: 100%; overflow: hidden; background: var(--so-app); }
+  button { cursor: default; }
+  input, textarea { color: inherit; font: inherit; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--so-line-strong); border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-track { background: transparent; }
+}

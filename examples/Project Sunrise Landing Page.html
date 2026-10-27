@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aurora Korenmarkt — opening 1 May 2027</title>
+  <meta name="description" content="SolarHTML example page: the opening announcement for a fictional café.">
+  <style>
+    :root {
+      --ink: #2b1d14; --muted: #5c4636; --accent: #c95f00; --sun: #f59f0b;
+      --bg: #ffffff; --soft: #f7f3ef; --line: #e8e2dc;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --ink: #f3ece6; --muted: #c8b6a6; --accent: #ffa94d; --bg: #1e1a17; --soft: #2a2420; --line: #3a322c; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 17px/1.6 -apple-system, "Segoe UI", Inter, Arial, sans-serif; color: var(--ink); background: var(--bg); }
+    a { color: var(--accent); }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+    header.hero { background: #2b1d14; color: #fff; overflow: hidden; position: relative; }
+    header.hero .wrap { padding-top: 88px; padding-bottom: 96px; position: relative; z-index: 1; }
+    header.hero .sun { position: absolute; right: -120px; top: -140px; width: 420px; height: 420px; border-radius: 50%; background: var(--sun); opacity: .9; }
+    .eyebrow { text-transform: uppercase; letter-spacing: .12em; font-size: 13px; color: #d9c2ae; margin: 0 0 12px; }
+    h1 { font: 700 clamp(36px, 6vw, 60px)/1.1 Georgia, Cambria, serif; margin: 0 0 16px; max-width: 14ch; }
+    .lead { font-size: 20px; color: #e8dccf; max-width: 36ch; margin: 0 0 28px; }
+    .btn { display: inline-block; background: var(--sun); color: #2b1d14; font-weight: 700; padding: 12px 22px; border-radius: 999px; text-decoration: none; }
+    .btn:hover { filter: brightness(1.05); }
+    section.wrap { padding-top: 56px; padding-bottom: 56px; }
+    h2 { font: 700 30px/1.2 Georgia, Cambria, serif; margin: 0 0 24px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+    .card { background: var(--soft); border-radius: 16px; padding: 22px; }
+    .card h3 { margin: 0 0 6px; font-size: 18px; }
+    .card p { margin: 0; color: var(--muted); }
+    .big { font: 700 40px/1 Georgia, Cambria, serif; color: var(--accent); margin-bottom: 8px; }
+    ol.timeline { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+    ol.timeline li { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 14px 0; border-top: 1px solid var(--line); }
+    ol.timeline time { font-weight: 700; color: var(--accent); }
+    form { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    input[type=email] { flex: 1 1 260px; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; }
+    button { padding: 12px 22px; border: 0; border-radius: 10px; background: var(--accent); color: #fff; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer; }
+    #thanks { color: var(--muted); min-height: 1.6em; }
+    footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="sun" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="eyebrow">Aurora Coffee Roasters · Ghent</p>
+      <h1>A new café on the Korenmarkt</h1>
+      <p class="lead">Eighty seats, a sunny terrace and our roaster in plain sight. Doors open on <strong>1 May 2027</strong>.</p>
+      <a class="btn" href="#notify">Tell me when it opens</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="wrap" aria-labelledby="why">
+      <h2 id="why">What to expect</h2>
+      <div class="grid">
+        <div class="card"><div class="big">80</div><h3>Seats</h3><p>Plus 24 on the terrace from April to October.</p></div>
+        <div class="card"><div class="big">18 h</div><h3>Cold brew</h3><p>Steeped overnight, every night, from our own beans.</p></div>
+        <div class="card"><div class="big">1</div><h3>Roaster on show</h3><p>Watch Thursday's roast while you have breakfast.</p></div>
+      </div>
+    </section>
+
+    <section class="wrap" aria-labelledby="when">
+      <h2 id="when">Getting there</h2>
+      <ol class="timeline">
+        <li><time datetime="2027-01">January</time><span>We sign the lease and order the espresso machine.</span></li>
+        <li><time datetime="2027-02">Feb – Apr</time><span>Builders in, baristas in training at Vrijdagmarkt.</span></li>
+        <li><time datetime="2027-04">Late April</time><span>A soft opening for regulars and neighbours.</span></li>
+        <li><time datetime="2027-05-01">1 May</time><span>Doors open at 8:00 — the first fifty guests get a cardamom bun.</span></li>
+      </ol>
+    </section>
+
+    <section class="wrap" id="notify" aria-labelledby="notify-h">
+      <h2 id="notify-h">Get the opening invite</h2>
+      <p>One email, a week before we open. Nothing else.</p>
+      <form id="signup" novalidate>
+        <input id="email" type="email" aria-label="Email address" placeholder="you@example.com" autocomplete="email" required>
+        <button type="submit">Notify me</button>
+      </form>
+      <p id="thanks" role="status"></p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">Aurora Korenmarkt · Korenmarkt 12, 9000 Gent · A fictional café — this page is a SolarHTML example.</div>
+  </footer>
+
+  <script>
+    // Demo only: nothing is sent anywhere.
+    document.getElementById('signup').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email');
+      const thanks = document.getElementById('thanks');
+      thanks.textContent = email.checkValidity() && email.value
+        ? `Thanks! (Example page: ${email.value} was not sent anywhere.)`
+        : 'Please enter a valid email address.';
+    });
+  </script>
+</body>
+</html>

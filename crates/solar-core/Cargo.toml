@@ -1,0 +1,19 @@
+[package]
+name = "solar-core"
+version.workspace = true
+edition.workspace = true
+publish = false
+description = "SolarOffice core: app registry, recent/starred library, settings and persistence"
+
+[lints]
+workspace = true
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true }
+dirs = { workspace = true }
+log = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }

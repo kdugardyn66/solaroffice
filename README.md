@@ -22,7 +22,7 @@ Axum/Tokio sync server with PostgreSQL. No JavaScript/TypeScript in the app itse
   checkboxes and ⌘-click for multi-select with a selection bar; missing files are marked.
 - **Folder view**: click a sidebar folder to list its subfolders and documents.
 - **Settings**: theme (System / Light / Dark), name for the greeting, save folder; About.
-- First launch copies the *Project Sunrise* examples into `~/Documents/SolarOffice/Examples`.
+- First launch copies the *Project Sunrise* examples straight into `~/Documents/SolarOffice`.
 - State is saved in `~/Library/Application Support/SolarOffice/home.json`
   (`SOLAROFFICE_CONFIG_DIR` overrides).
 

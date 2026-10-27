@@ -22,19 +22,18 @@ pub fn primary(m: Modifiers) -> bool {
     if cfg!(target_os = "macos") { m.contains(Modifiers::META) } else { m.contains(Modifiers::CONTROL) }
 }
 
-/// First launch: copy the example documents into `<save folder>/Examples` and list them.
+/// First launch: copy the example documents straight into the save folder and list them.
 fn install_examples(state: &mut HomeState) {
     if state.settings.examples_installed {
         return;
     }
     let Some(src) = crate::files::bundled_examples() else { return };
     let save = state.settings.save_folder();
-    let dest = save.join("Examples");
-    match solar_core::folders::copy_missing(&src, &dest) {
+    match solar_core::folders::copy_missing(&src, &save) {
         Ok(_) => {
             state.settings.examples_installed = true;
             let now = now_ms();
-            let listing = solar_core::folders::list(&dest);
+            let listing = solar_core::folders::list(&save);
             for (i, (p, _)) in listing.files.iter().enumerate().rev() {
                 state.library.touch(p, now - i as i64);
             }

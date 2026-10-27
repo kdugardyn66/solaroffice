@@ -61,7 +61,7 @@ else
 fi
 sed "s/@VERSION@/$VERSION/g" packaging/macos/Info.plist.in > "$APP/Contents/Info.plist"
 cp assets/app-icon/solaroffice.icns "$APP/Contents/Resources/solaroffice.icns"
-ditto examples "$APP/Contents/Resources/Examples"   # one example document per module
+ditto examples "$APP/Contents/Resources"   # the example documents sit directly in Resources; the app copies them into the save folder on first launch
 printf 'APPL????' > "$APP/Contents/PkgInfo"
 xattr -cr "$APP" 2>/dev/null || true
 

@@ -51,6 +51,8 @@ pub fn App() -> Element {
         let store = Store::default_location();
         let mut state = store.load();
         install_examples(&mut state);
+        let save = state.settings.save_folder();
+        state.library.relocate_stale(&save);
         let _ = std::fs::create_dir_all(state.settings.save_folder());
         let system_dark = matches!(dioxus::desktop::window().window.theme(), dioxus::desktop::tao::window::Theme::Dark);
         Ctx::new(state, store, system_dark)

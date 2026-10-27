@@ -6,7 +6,7 @@ SolarMarkdown and SolarHTML — with AI built in.
 **Stack:** Dioxus 0.7 (desktop now, WASM later) + TailwindCSS v4 · Yrs (CRDT) for collaboration ·
 Axum/Tokio sync server with PostgreSQL. No JavaScript/TypeScript in the app itself.
 
-**Status — v0.2.0: Home screen plus the AI layer.** Chat and Settings are in; the module editors and the sync server follow.
+**Status — v0.2.1: Home screen plus the AI layer.** Chat and Settings are in; the module editors and the sync server follow.
 
 ## The Home screen
 

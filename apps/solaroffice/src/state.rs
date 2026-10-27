@@ -152,7 +152,9 @@ impl Ctx {
         let id = now_ms() as u64;
         self.toast.set(Some((id, text.into())));
         let mut toast = self.toast;
-        spawn(async move {
+        // Not `spawn`: that task would die with the component that was showing when the toast
+        // was raised (e.g. leaving the Home page), and the toast would never go away.
+        dioxus::core::spawn_forever(async move {
             tokio::time::sleep(std::time::Duration::from_millis(3200)).await;
             if toast.peek().as_ref().is_some_and(|(t, _)| *t == id) {
                 toast.set(None);

@@ -174,6 +174,52 @@ impl Library {
         }
     }
 
+    /// Repair entries that point at a stale copy of a file: one that is gone, or one inside the
+    /// application bundle. If the save folder holds a file of the same name, the entry follows it
+    /// (or is dropped when that file is already listed). Returns whether anything changed.
+    pub fn relocate_stale(&mut self, save: &Path) -> bool {
+        let stale = |p: &Path| !p.exists() || p.components().any(|c| c.as_os_str().to_string_lossy().ends_with(".app"));
+        let target = |p: &Path| -> Option<PathBuf> {
+            let t = save.join(p.file_name()?);
+            (t != p && t.is_file() && stale(p)).then_some(t)
+        };
+        let mut changed = false;
+        let mut seen: Vec<PathBuf> = Vec::new();
+        let mut recents = Vec::new();
+        // Newest first, so the most recent opening of a file wins.
+        let mut old = std::mem::take(&mut self.recents);
+        old.sort_by_key(|r| std::cmp::Reverse(r.opened_ms));
+        for mut r in old {
+            if let Some(t) = target(&r.path) {
+                r.path = t;
+                changed = true;
+            }
+            if seen.contains(&r.path) {
+                changed = true;
+                continue;
+            }
+            seen.push(r.path.clone());
+            recents.push(r);
+        }
+        self.recents = recents;
+        let mut seen: Vec<PathBuf> = Vec::new();
+        let mut starred = Vec::new();
+        for mut s in std::mem::take(&mut self.starred) {
+            if let Some(t) = target(&s.path) {
+                s.path = t;
+                changed = true;
+            }
+            if seen.contains(&s.path) {
+                changed = true;
+                continue;
+            }
+            seen.push(s.path.clone());
+            starred.push(s);
+        }
+        self.starred = starred;
+        changed
+    }
+
     /// The number of entries per view under `filter`, for the sidebar counts.
     pub fn counts(&self, filter: Option<AppKind>) -> (usize, usize) {
         let ok = |p: &Path| filter.is_none() || AppKind::for_path(p) == filter;
@@ -232,6 +278,27 @@ pub fn sort_rows(rows: &mut [Row], sort: Sort) {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn stale_entries_follow_the_copy_in_the_save_folder() {
+        let d = std::env::temp_dir().join(format!("so-stale-{}", std::process::id()));
+        let save = d.join("save");
+        std::fs::create_dir_all(&save).unwrap();
+        std::fs::write(save.join("Plan.docx"), "x").unwrap();
+        std::fs::write(save.join("Notes.md"), "x").unwrap();
+        let mut l = Library::default();
+        l.touch(&save.join("Examples/Plan.docx"), 10); // gone
+        l.touch(&save.join("Plan.docx"), 20); // already listed
+        l.touch(Path::new("/Applications/SolarOffice.app/Contents/Resources/Examples/Notes.md"), 30);
+        l.touch(Path::new("/nowhere/Other.md"), 40); // no copy: left as is
+        l.set_starred(&save.join("Examples/Plan.docx"), true, 5);
+        assert!(l.relocate_stale(&save));
+        let paths: Vec<_> = l.recents.iter().map(|r| r.path.clone()).collect();
+        assert_eq!(paths, vec![PathBuf::from("/nowhere/Other.md"), save.join("Notes.md"), save.join("Plan.docx")]);
+        assert_eq!(l.starred[0].path, save.join("Plan.docx"));
+        assert!(!l.relocate_stale(&save), "second run changes nothing");
+        std::fs::remove_dir_all(&d).ok();
+    }
 
     fn lib() -> Library {
         let mut l = Library::default();
